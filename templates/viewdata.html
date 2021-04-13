@@ -1,0 +1,204 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block myblock %}
+
+<h1>View student Data</h1>
+<script src="https://cdn.jsdelivr.net/npm/chart.js@3.0.2/dist/chart.min.js"></script>
+
+<div class="row">
+        <div class="col-md-12">
+            <h2 class="text-center">STUDENT DETAILS</h2>
+            <h4 class="text-center"><em>Total Student:{{messages|length}}</em></h4>
+           <!-- <h4 class="text-center px-0 bg-warning"><em> {{subject}}:{{count}} </em></h4>-->
+
+            <table class="table table-bordered table-striped table-hover">
+                <thead class="thead-dark">
+                    <tr>
+                         <th>id</th>
+                         <th>name</th>
+                         <th>contact</th>
+                         <th>roll number</th>
+                         <th>Subject</th>
+                         <!--<th>date</th>-->
+                        <th>Action</th>
+                    </tr>
+                </thead>
+            <tbody>
+                {% for msg in messages %}
+                <tr>
+                    <td>{{msg.id}}</td>
+                    <td>{{msg.name}}</td>
+                    <td>{{msg.contact_no}}</td>
+                    <td>{{msg.roll_no}}</td>
+                    <td>{{msg.subject}}</td>
+                    <!--<td>{{msg.added_on}}</td>-->
+                    <td>
+                        <input type="button" data-sid = "{{msg.id}}"   class="btn btn-warning btn-sm btn-edit" value="Edit" data-bs-toggle="modal" data-bs-target="#mymodal">
+                        <input type="button" data-sid = "{{msg.id}}" class="btn btn-danger btn-sm btn-del" value="Delete">
+                    </td>
+
+                </tr>
+                {% endfor %}
+            </tbody>
+            </table>
+    </div>
+</div>
+
+<!--MODAL BODY OF EDIT BUTTON-->
+<div class="col-md-12">
+            <div class="modal fade" id="mymodal">
+                <div class="modal-dialog modal-lg">
+                    <div class="modal-content">
+
+                        <div class="modal-header">
+                            <h4 class="modal-title">Update User</h4>
+                            <button type="button" class="close" data-bs-dismiss="modal">&times;</button>
+                        </div>
+
+                        <div class="modal-body">
+                            <form method="post" action="{% url 'update_data' %}">
+                                {% csrf_token %}
+                                <div class="form-group">
+                                    <input type="hidden" name="stuid" class="form-control" id="stuid">
+                                </div>
+                                <div class="form-group">
+                                    <label>Your Name</label>
+                                    <input type="text" name="name" class="form-control" id="nameid2">
+                                </div>
+                                 <div class="form-group">
+                                    <label>Contact Number</label>
+                                    <input type="number" name="contact" class="form-control" id="contactid2">
+                                 </div>
+                                <div class="form-group">
+                                    <label>Roll Number</label>
+                                    <input type="number" name="roll" class="form-control" id="rollid2">
+                                </div>
+                                <div class="form-group">
+                                    <label for="">Subject</label>
+                                    <select name="subject" class="form-control" id="subjectid2">
+                                    <option value="Hindi">Hindi</option>
+                                    <option value="English">English</option>
+                                    <option value="Spanish">Spanish</option>
+                                    <option value="Japaneese">Japaneese</option>
+                                    <option value="Mexican">Mexican</option>
+                                    </select>
+                 </div>
+
+                               <div class="form-group py-1">
+                                     <input type="submit" value="Update" class="btn btn-success">
+                                     <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Close</button>
+                                </div>
+
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+
+<script>
+ $("#btnsave").click(function(){
+    console.log("save Button clicked");
+
+    let nm1 = $("#nameid").val();
+    let con1 = $("#contactid").val();
+    let roll1 = $("#rollid").val();
+    let sub1 = $("#subjectid").val();
+
+
+
+    console.log(nm1);
+    console.log(con1);
+    console.log(roll1);
+    console.log(sub1);
+
+    mydata = {name:nm1 ,contact:con1, roll:roll1, subject:sub1};
+
+        $.ajax({
+            url: "{% url 'signup'%}",
+            method : "POST",
+            data:mydata,
+            success: function (data){
+            console.log(data);
+            },
+            });
+
+    });
+
+
+
+ $("tbody").on ("click", ".btn-del",function(){
+    console.log("DElete button clicked");
+    let id = $(this).attr("data-sid");
+     let csr = $("input[name=csrfmiddlewaretoken").val();
+
+    console.log(id);
+    mydata = { sid : id, csrfmiddlewaretoken : csr};
+    mythis = this;
+
+        $.ajax({
+        url: "{% url 'delete' %}",
+        method : "POST",
+        data:mydata,
+        success: function(data) {
+        console.log(data);
+        if (data.status == 1) {
+            console.log("Data deleted Successfully");
+            $(mythis).closest("tr").fadeOut();
+         }
+         if (data.status == 0) {
+            console.log("Unable to Delete Data");
+
+         }
+
+        },
+    });
+  });
+
+
+ $("tbody").on ("click", ".btn-edit",function(){
+    console.log("Edit button clicked");
+    let id = $(this).attr("data-sid");
+     let csr = $("input[name=csrfmiddlewaretoken").val();
+    console.log(id);
+    mydata = { sid : id , csrfmiddlewaretoken : csr};
+    mythis = this;
+
+        $.ajax({
+        url: "{% url 'edit' %}",
+        method : "POST",
+        data:mydata,
+        dataType:"json",
+        success: function(data) {
+        console.log(data);
+        $("#stuid").val(data.id);
+        $("#nameid2").val(data.name);
+        $("#contactid2").val(data.contact);
+        $("#rollid2").val(data.roll);
+        $("#subjectid2").val(data.subject);
+
+        },
+    });
+  });
+
+</script>
+
+    <div class="container-fluid" style="width : 35%">
+    <canvas id="myChart"></canvas>
+    </div>
+
+    <script src="{% static 'bootstrap/js/chart.js' %}"></script>
+
+
+
+
+
+
+
+
+
+
+
+
+{% endblock %}
+

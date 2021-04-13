@@ -1,0 +1,124 @@
+{%extends "base.html"%}
+{% load static %}
+{% block myblock%}
+
+<html lang="en" xmlns="http://www.w3.org/1999/html">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@3.0.2/dist/chart.min.js"></script>
+    <style type="text/css">
+
+        section {
+            //border: 10px solid gray;
+            height: 90vh;
+            background: red;
+
+            //display: flex;
+            //align-items:center;
+            //justify-content: center;
+            position:relative;
+
+        }
+
+        /.container-fluid2 {
+            border: 10px solid gray;
+            max-width:700px;
+            width:100%;
+            margin:auto;
+
+            height:50vh;
+            display: flex;
+            align-items:center;
+            justify-content: center;
+
+            position: absolute;
+            right:0;
+            left:0;
+            top:0;
+            bottom:0;
+            margin:auto;
+
+        }
+
+        /.col-lg-10{
+        border: 10px solid gray;
+            max-width:700px;
+            width:100%;
+            margin:auto;
+
+            border: 10px solid gray;
+            max-width:700px;
+            width:100%;
+            margin:auto;
+
+            height:50vh;
+            display: flex;
+            align-items:center;
+            justify-content: center;
+
+            position: absolute;
+            right:0;
+            left:0;
+            top:0;
+            bottom:0;
+            margin:auto;
+            position: absolute;
+            right:0;
+            left:0;
+            top:0;
+            bottom:0;
+
+
+        }
+
+        .row{
+        border: 5px solid ;
+            max-width:700px;
+            width:100%;
+            margin:auto;
+
+            border: 10px solid gray;
+            max-width:700px;
+            width:100%;
+            margin:auto;
+
+            height:50vh;
+            display: flex;
+            align-items:center;
+            justify-content: center;
+
+            position: absolute;
+            right:0;
+            left:0;
+            top:0;
+            bottom:0;
+            margin:auto;
+            position: absolute;
+            right:0;
+            left:0;
+            top:0;
+            bottom:0;
+            margin:auto;
+
+        }
+    </style>
+
+
+</head>
+<body>
+<div class="container-fluid"></div>
+<h1>This is newproject</h1>
+<div class="container-fluid2" style="width: 25%">
+<canvas id="myChart" width="400" height="400"></canvas>
+</div>
+</body>
+
+
+<script src="{% static 'bootstrap/js/chart.js'%}"></script>
+
+
+</html>
+
+{% endblock %}
