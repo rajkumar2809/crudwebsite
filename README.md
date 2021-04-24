@@ -1,2 +1,0 @@
-# mydemo
-CRUD APPLICATION

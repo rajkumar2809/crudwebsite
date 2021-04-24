@@ -25,9 +25,9 @@ STATIC_DIR = os.path.join(BASE_DIR,"static")
 SECRET_KEY = 'p5=b&85wd6u4r3srx4@7=^@2xp3ravuoanjj!#q1ce%-^9r(i5'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = False
+DEBUG = True
 
-ALLOWED_HOSTS = ['127.0.0.1','rajmywebsite.herokuapp.com']
+ALLOWED_HOSTS = []
 
 
 # Application definition
