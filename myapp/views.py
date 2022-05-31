@@ -5,7 +5,7 @@ from django.http import JsonResponse
 from django.db.models import Count
 
 # Create your views here.
-
+#demo add for checking on git difference.
 
 def index(request):
     return render(request,"index.html")
